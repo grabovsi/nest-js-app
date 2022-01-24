@@ -46,7 +46,7 @@ pipeline {
 
         stage("Docker build") {
             steps {
-          sh "docker build -t web_app_build_$BUILD_NUMBER"
+          sh "docker build -t web_app_build_$BUILD_NUMBER ."
          }        
         }   
 
