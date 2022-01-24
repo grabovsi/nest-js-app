@@ -12,9 +12,6 @@ pipeline {
         stage("npm install + lint") {
             steps {
                 sh "npm install"
-                sh "npm run lint"
-                 sh "npm run lint"
-                  sh "1npm run lint"
                 }
         }
 
@@ -45,7 +42,13 @@ pipeline {
             steps {
                 sh "npm run test:e2e"
                 }
-        }      
+        }   
+
+        stage("Docker build") {
+        steps {
+            sh "docker build -t app_image_build_ $BUILD_NUMBER"
+        }
+}   
 
      }
 }
