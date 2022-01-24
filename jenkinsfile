@@ -15,7 +15,7 @@ pipeline {
 
         stage("Code coverage") {
             steps {
-                sh "jest --coverage"
+                sh "npm run test:cov"
                 publishHTML (target: [
                     reportDir: 'coverage/lcov-report',
                     reportFiles: 'index.html',
