@@ -59,7 +59,7 @@ pipeline {
 
         stage("Deploy to staging") {
             steps {
-                bat "docker run -d --rm -p 3001:3000 --name app_$BUILD_NUMBE localhost:5000/web_app_build/$BUILD_NUMBE"
+                bat "docker run -d --rm -p 3001:3000 --name app_$BUILD_NUMBER localhost:5000/web_app_build/$BUILD_NUMBER"
                 /////////////
             }         
         } 
