@@ -17,7 +17,7 @@ pipeline {
 
         stage("Code coverage") {
             steps {
-                sh "npm run test:cov"
+                bat "npm run test:cov"
                 publishHTML (target: [
                     reportDir: 'coverage/lcov-report',
                     reportFiles: 'index.html',
@@ -29,24 +29,24 @@ pipeline {
 
         stage("Static code analysis") {
         steps {
-                sh " echo 'Hi'"
+                bat " echo 'Hi'"
             }
         }
 
         stage("unit tests") {
             steps {
-                sh "npm run test"
+                bat "npm run test"
                 }
         }  
         stage("e2e tests") {
             steps {
-                sh "npm run test:e2e"
+                bat "npm run test:e2e"
                 }
         }   
 
         stage("Docker build") {
             steps {
-          sh "echo admin | sudo -S dockerd"
+          //sh "echo admin | sudo -S dockerd"
           
           //sh "sudo docker build -t web_app_build_$BUILD_NUMBER ."
          }        
