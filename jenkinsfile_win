@@ -44,17 +44,18 @@ pipeline {
                 }
         }
 
-        stage("Docker build") {
+        stage("Build") {
             steps {
                 bat "docker build -t localhost:5000/web_app_build/$BUILD_NUMBER ."
-            }         
-        } 
-
-        stage("Docker push") {
-            steps {
                 bat "docker push localhost:5000/web_app_build/$BUILD_NUMBER"
             }         
         } 
+
+       // stage("Docker push") {
+       //     steps {
+       //         bat "docker push localhost:5000/web_app_build/$BUILD_NUMBER"
+       //     }         
+       // } 
 
         stage("Deploy to staging") {
             steps {
