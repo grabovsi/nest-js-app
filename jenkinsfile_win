@@ -1,0 +1,56 @@
+pipeline {
+     agent any
+     triggers {
+        pollSCM('* * * * *')
+     }
+     stages {
+        stage("Checkout") {
+               steps {
+                    git url: 'https://github.com/grabovsi/nest-js-app.git'
+               }
+        }
+        stage("npm install + lint") {
+            steps {
+                bat "npm install"
+                }
+        }
+
+        stage("Code coverage") {
+            steps {
+                sh "npm run test:cov"
+                publishHTML (target: [
+                    reportDir: 'coverage/lcov-report',
+                    reportFiles: 'index.html',
+                    reportName: "Jest test coverage report"
+                ])
+
+        }
+        }
+
+        stage("Static code analysis") {
+        steps {
+                sh " echo 'Hi'"
+            }
+        }
+
+        stage("unit tests") {
+            steps {
+                sh "npm run test"
+                }
+        }  
+        stage("e2e tests") {
+            steps {
+                sh "npm run test:e2e"
+                }
+        }   
+
+        stage("Docker build") {
+            steps {
+          sh "echo admin | sudo -S dockerd"
+          
+          //sh "sudo docker build -t web_app_build_$BUILD_NUMBER ."
+         }        
+        }   
+
+     }
+}
