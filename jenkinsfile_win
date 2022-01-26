@@ -34,7 +34,7 @@ pipeline {
                 }
         }
 
-        stage("Image Build") {
+        stage("Image Build and Push") {
             steps {
                 bat "docker build -t localhost:5000/web_app_build/$BUILD_NUMBER ."
                 bat "docker push localhost:5000/web_app_build/$BUILD_NUMBER"
@@ -55,4 +55,9 @@ pipeline {
         }        
 
      }
+     post {
+     always {
+          sh "docker stop app_$BUILD_NUMBER"
+            }
+        }
 }
