@@ -1,1 +1,1 @@
->nul 2>&1 ping www.ed-dyreen.com &&echo.true ||echo.false
+>nul 2>&1 ping www.google.com &&echo.true ||echo.false
