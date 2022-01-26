@@ -9,7 +9,7 @@ pipeline {
                     git url: 'https://github.com/grabovsi/nest-js-app.git'
                }
         }
-        stage("npm install + lint") {
+        stage("build") {
             steps {
                 bat "npm install"
                 }
@@ -23,39 +23,23 @@ pipeline {
                     reportFiles: 'index.html',
                     reportName: "Jest test coverage report"
                 ])
+                 bat " echo 'Static code analysys'"
 
         }
         }
-
-        stage("Static code analysis") {
-        steps {
-                bat " echo 'Hi'"
-            }
-        }
-
-        stage("unit tests") {
-            steps {
-                bat "npm run test"
-                }
-        }  
+ 
         stage("e2e tests") {
             steps {
                 bat "npm run test:e2e"
                 }
         }
 
-        stage("Build") {
+        stage("Image Build") {
             steps {
                 bat "docker build -t localhost:5000/web_app_build/$BUILD_NUMBER ."
                 bat "docker push localhost:5000/web_app_build/$BUILD_NUMBER"
             }         
         } 
-
-       // stage("Docker push") {
-       //     steps {
-       //         bat "docker push localhost:5000/web_app_build/$BUILD_NUMBER"
-       //     }         
-       // } 
 
         stage("Deploy to staging") {
             steps {
