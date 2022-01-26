@@ -51,13 +51,13 @@ pipeline {
             steps {
                     sleep 60
                     bat "./acceptance_test.bat"
-            }         
+            }  
+            post {
+                always {
+                    sh "docker stop app_$BUILD_NUMBER"
+            }
+        }       
         }        
 
      }
-     post {
-     always {
-          sh "docker stop app_$BUILD_NUMBER"
-            }
-        }
 }

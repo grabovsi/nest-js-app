@@ -1,0 +1,8 @@
+version: "3"
+services:
+     redis:
+          image: redis:latest
+     appp:
+          image: localhost:5000/web_app_build/16:latest
+          ports:
+            - 3000
