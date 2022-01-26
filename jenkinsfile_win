@@ -48,5 +48,12 @@ pipeline {
             }         
         } 
 
+         stage("acceptance test") {
+            steps {
+                    sleep 60
+                    sh "./acceptance_test.bat"
+            }         
+        }        
+
      }
 }
