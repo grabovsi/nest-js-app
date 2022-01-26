@@ -1,1 +1,1 @@
->nul 2>&1 ping www.google.com &&echo.true ||echo.false
+curl localhost:3001/test
