@@ -3,6 +3,6 @@ services:
      redis:
           image: redis:latest
      appp:
-          image: localhost:5000/web_app_build/16:latest
+          build: .
           ports:
-            - 3000
+            - 3000:3001

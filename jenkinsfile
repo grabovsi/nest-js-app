@@ -1,15 +1,17 @@
 pipeline {
      agent any
-     triggers {
-        pollSCM('* * * * *')
-     }
+     environment {
+         // https://docs.docker.com/compose/reference/envvars/#compose_project_name
+        COMPOSE_PROJECT_NAME = 'empty_project'
+        DB_ENGINE    = 'sqlite'
+     }   
      stages {
         stage("Checkout") {
                steps {
                     git url: 'https://github.com/grabovsi/nest-js-app.git'
                }
         }
-        stage("npm install + lint") {
+        stage("build") {
             steps {
                 sh "npm install"
                 }
@@ -23,34 +25,41 @@ pipeline {
                     reportFiles: 'index.html',
                     reportName: "Jest test coverage report"
                 ])
+                 sh " echo 'Static code analysys'"
 
         }
         }
-
-        stage("Static code analysis") {
-        steps {
-                sh " echo 'Hi'"
-            }
-        }
-
-        stage("unit tests") {
-            steps {
-                sh "npm run test"
-                }
-        }  
+ 
         stage("e2e tests") {
             steps {
                 sh "npm run test:e2e"
                 }
-        }   
+        }
 
-        stage("Docker build") {
+        stage("Image Build and Push") {
             steps {
-          sh "echo admin | sudo -S dockerd"
-          
-          //sh "sudo docker build -t web_app_build_$BUILD_NUMBER ."
-         }        
-        }   
+                sh "docker build -t localhost:5000/web_app_build/$BUILD_NUMBER ."
+                sh "docker push localhost:5000/web_app_build/$BUILD_NUMBER"
+            }         
+        } 
+
+        stage("Deploy to staging") {
+            steps {
+                sh "docker run -d --rm -p 3001:3000 --name app_$BUILD_NUMBER localhost:5000/web_app_build/$BUILD_NUMBER"
+            }         
+        } 
+
+         stage("acceptance test") {
+            steps {
+                    sleep 60
+                    sh "./acceptance_test.sh"
+            }  
+            post {
+                always {
+                    sh "docker stop app_$BUILD_NUMBER"
+            }
+        }       
+        }        
 
      }
 }

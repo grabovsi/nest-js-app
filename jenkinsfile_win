@@ -1,5 +1,10 @@
 pipeline {
      agent any
+     environment {
+         // https://docs.docker.com/compose/reference/envvars/#compose_project_name
+        COMPOSE_PROJECT_NAME = 'empty_project'
+        DB_ENGINE    = 'sqlite'
+     }   
      triggers {
         pollSCM('* * * * *')
      }
