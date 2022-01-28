@@ -13,7 +13,7 @@ pipeline {
         }
         stage("build") {
             steps {
-                sh "echo admin | sudo -S"
+                sh "sudo -s | echo admin"
                 sh " sudo npm install"
                 }
         }
