@@ -1,5 +1,6 @@
 pipeline {
      agent any
+     tools { nodejs "nodejs" }
      environment {
          // https://docs.docker.com/compose/reference/envvars/#compose_project_name
         COMPOSE_PROJECT_NAME = 'empty_project'
