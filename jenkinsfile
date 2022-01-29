@@ -40,8 +40,8 @@ pipeline {
 
         stage("Image Build and Push") {
             steps {
-                sh "docker build -t localhost:5000/web_app_build/$BUILD_NUMBER ."
-                sh "docker push localhost:5000/web_app_build/$BUILD_NUMBER"
+                sh "sudo docker build -t localhost:5000/web_app_build/$BUILD_NUMBER ."
+                sh "sudo docker push localhost:5000/web_app_build/$BUILD_NUMBER"
             }         
         } 
 
