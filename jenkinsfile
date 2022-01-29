@@ -55,7 +55,7 @@ pipeline {
             steps {
                     sleep 60
                     sh "echo admin | chmod +x ./acceptance_test.sh"
-                    sh "./acceptance_test.sh"
+                    sh "echo admin | ./acceptance_test.sh"
             }  
             post {
                 always {
