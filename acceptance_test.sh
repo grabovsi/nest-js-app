@@ -1,1 +1,1 @@
-curl localhost:3001/test
+sudo curl localhost:3001/test
