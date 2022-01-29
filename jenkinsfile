@@ -59,7 +59,7 @@ pipeline {
             }  
             post {
                 always {
-                    sh "docker stop app_$BUILD_NUMBER"
+                   // sh "docker stop app_$BUILD_NUMBER"
             }
         }       
         } 
