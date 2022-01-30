@@ -5,6 +5,7 @@ pipeline {
          // https://docs.docker.com/compose/reference/envvars/#compose_project_name
         COMPOSE_PROJECT_NAME = 'empty_project'
         DB_ENGINE    = 'sqlite'
+        $DOCKER_REGISTRY = '192.168.0.107:5000'
      }   
      stages {
         stage("Checkout") {
@@ -40,14 +41,16 @@ pipeline {
 
         stage("Image Build and Push") {
             steps {
-                sh "docker build -t localhost:5000/web_app_build/$BUILD_NUMBER ."
-                sh "docker push localhost:5000/web_app_build/$BUILD_NUMBER"
+                sh "docker build web_app_build ."
+                sh "docker image tag web_app_build:latest $DOCKER_REGISTRY/web_app_build:latest"
+                sh "docker push $DOCKER_REGISTRY/web_app_build:latest"
             }         
         } 
 
         stage("Deploy to staging") {
             steps {
-                sh "docker run -d --rm -p 3001:3000 --name app_$BUILD_NUMBER localhost:5000/web_app_build/$BUILD_NUMBER"
+                sh "docker pull $DOCKER_REGISTRY/web_app_build:latest"
+                sh "docker run -d --rm -p 3001:3000 --name app_$BUILD_NUMBER web_app_build:latest"
             }         
         } 
 
