@@ -41,7 +41,7 @@ pipeline {
 
         stage("Image Build and Push") {
             steps {
-                sh "docker build-t web_app_build ."
+                sh "docker build -t web_app_build ."
                 sh "docker image tag web_app_build:latest $DOCKER_REGISTRY/web_app_build:latest"
                 sh "docker push $DOCKER_REGISTRY/web_app_build:latest"
             }         
